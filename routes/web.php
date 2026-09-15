@@ -24,6 +24,40 @@ use App\Http\Controllers\AndonController;
 use App\Http\Controllers\ActivityLogController;
 use Illuminate\Support\Facades\Storage;
 
+// PWA Dynamic Web App Manifest
+Route::get('/manifest.json', function () {
+    $appName = app_setting('app_name', 'HBT Produksi');
+    $shortName = app_setting('app_short_name', $appName);
+    $logoUrl = app_logo_url();
+
+    return response()->json([
+        'name' => $appName,
+        'short_name' => $shortName,
+        'start_url' => '/',
+        'display' => 'standalone',
+        'background_color' => '#0f172a',
+        'theme_color' => '#4f46e5',
+        'orientation' => 'portrait-primary',
+        'icons' => [
+            [
+                'src' => $logoUrl,
+                'sizes' => '192x192',
+                'type' => 'image/png',
+                'purpose' => 'any maskable',
+            ],
+            [
+                'src' => $logoUrl,
+                'sizes' => '512x512',
+                'type' => 'image/png',
+                'purpose' => 'any maskable',
+            ],
+        ],
+    ], 200, [
+        'Content-Type' => 'application/manifest+json; charset=utf-8',
+        'Cache-Control' => 'no-cache, private',
+    ]);
+})->name('pwa.manifest');
+
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'index'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login.post');

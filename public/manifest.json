@@ -1,21 +1,23 @@
 {
-    "name": "AEJ Manufactra",
-    "short_name": "AEJ App",
+    "name": "HBT Produksi",
+    "short_name": "HBT Produksi",
     "start_url": "/",
     "display": "standalone",
-    "background_color": "#f8fafc",
-    "theme_color": "#2563eb",
+    "background_color": "#0f172a",
+    "theme_color": "#4f46e5",
     "orientation": "portrait-primary",
     "icons": [
         {
-            "src": "/images/favicon192.png",
+            "src": "/images/logo.png",
             "sizes": "192x192",
-            "type": "image/png"
+            "type": "image/png",
+            "purpose": "any maskable"
         },
         {
-            "src": "/images/favicon512.png",
+            "src": "/images/logo.png",
             "sizes": "512x512",
-            "type": "image/png"
+            "type": "image/png",
+            "purpose": "any maskable"
         }
     ]
 }

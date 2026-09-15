@@ -10,7 +10,7 @@
     {{-- === FAVICON & MANIFEST === --}}
     <link rel="shortcut icon" href="{{ app_favicon_url() }}" type="image/x-icon">
     <link rel="icon" href="{{ app_favicon_url() }}" type="image/png">
-    <link rel="manifest" href="{{ asset('manifest.json') }}">
+    <link rel="manifest" href="{{ route('pwa.manifest') }}?v={{ md5(app_setting('app_name', 'app') . app_logo_url()) }}">
 
     {{-- Fonts & Libraries --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">

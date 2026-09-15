@@ -67,11 +67,16 @@ class AppSetting extends Model
     }
 
     /**
-     * Clear settings cache.
+     * Clear settings cache and regenerate manifest.json.
      */
     public static function clearCache(): void
     {
         Cache::forget(self::CACHE_KEY);
+        try {
+            self::updateManifestFile();
+        } catch (\Throwable $e) {
+            // Silently ignore
+        }
     }
 
     /**
@@ -183,5 +188,57 @@ class AppSetting extends Model
 
         return ($companyName ?: $appName) . '. All rights reserved.';
     }
+
+    /**
+     * Generate / update manifest.json for PWA installation.
+     */
+    public static function updateManifestFile(): void
+    {
+        $appName = self::get('app_name', 'HBT Produksi');
+        $shortName = self::get('app_short_name', $appName);
+        $logoUrl = self::getLogoUrl();
+
+        $data = [
+            'name' => $appName,
+            'short_name' => $shortName,
+            'start_url' => '/',
+            'display' => 'standalone',
+            'background_color' => '#0f172a',
+            'theme_color' => '#4f46e5',
+            'orientation' => 'portrait-primary',
+            'icons' => [
+                [
+                    'src' => $logoUrl,
+                    'sizes' => '192x192',
+                    'type' => 'image/png',
+                    'purpose' => 'any maskable',
+                ],
+                [
+                    'src' => $logoUrl,
+                    'sizes' => '512x512',
+                    'type' => 'image/png',
+                    'purpose' => 'any maskable',
+                ],
+            ],
+        ];
+
+        $json = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+
+        $paths = [
+            public_path('manifest.json'),
+        ];
+        if (is_dir(base_path('public_html'))) {
+            $paths[] = base_path('public_html/manifest.json');
+        }
+
+        foreach ($paths as $path) {
+            try {
+                @file_put_contents($path, $json);
+            } catch (\Throwable $e) {
+                // Silently ignore
+            }
+        }
+    }
 }
+
 

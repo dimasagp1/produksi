@@ -1,8 +1,6 @@
-const CACHE_NAME = "aej-manufactra-v1";
+const CACHE_NAME = "hbt-produksi-v2";
 const urlsToCache = [
     "/",
-    "/images/favicon.png",
-    "/images/aej.png",
     "/images/logo.png",
 ];
 
