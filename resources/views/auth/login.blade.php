@@ -9,6 +9,7 @@
     {{-- Favicon --}}
     <link rel="shortcut icon" href="{{ app_favicon_url() }}" type="image/x-icon">
     <link rel="icon" href="{{ app_favicon_url() }}" type="image/png">
+    <link rel="manifest" href="{{ route('pwa.webmanifest') }}?v={{ md5(app_setting('app_name', 'app') . app_logo_url()) }}">
 
     {{-- Fonts --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
