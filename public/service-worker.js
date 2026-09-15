@@ -1,7 +1,7 @@
-const CACHE_NAME = "hbt-produksi-v3";
+const CACHE_NAME = "hbt-produksi-v4";
 const urlsToCache = [
-    "/images/logo.png",
-    "/images/favicon192.png",
+    "/pwa-icon/192.png",
+    "/pwa-icon/512.png",
 ];
 
 // Install Service Worker

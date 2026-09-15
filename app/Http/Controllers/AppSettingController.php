@@ -194,4 +194,35 @@ class AppSettingController extends Controller
 
         return redirect()->route('settings.app.index')->with('success', 'Favicon berhasil direset ke default sistem.');
     }
+
+    /**
+     * Dynamically serve crisp PWA icon of requested size (192 or 512).
+     */
+    public function pwaIcon($size)
+    {
+        $targetSize = (int) $size;
+        if (!in_array($targetSize, [192, 512])) {
+            $targetSize = 192;
+        }
+
+        $pngData = AppSetting::generatePwaIcon($targetSize);
+
+        if ($pngData) {
+            return response($pngData, 200, [
+                'Content-Type' => 'image/png',
+                'Cache-Control' => 'no-cache, private, must-revalidate',
+            ]);
+        }
+
+        // Fallback to static logo
+        $fallback = public_path('images/logo.png');
+        if (file_exists($fallback)) {
+            return response()->file($fallback, [
+                'Content-Type' => 'image/png',
+                'Cache-Control' => 'no-cache, private, must-revalidate',
+            ]);
+        }
+
+        abort(404);
+    }
 }

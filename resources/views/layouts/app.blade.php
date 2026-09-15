@@ -10,6 +10,7 @@
     {{-- === FAVICON & MANIFEST === --}}
     <link rel="shortcut icon" href="{{ app_favicon_url() }}" type="image/x-icon">
     <link rel="icon" href="{{ app_favicon_url() }}" type="image/png">
+    <link rel="apple-touch-icon" sizes="192x192" href="{{ url('/pwa-icon/192.png') }}?v={{ md5(app_setting('app_name', 'app') . app_logo_url()) }}">
     <link rel="manifest" href="{{ route('pwa.webmanifest') }}?v={{ md5(app_setting('app_name', 'app') . app_logo_url()) }}">
 
     {{-- Fonts & Libraries --}}
@@ -509,7 +510,7 @@
         // Service Worker
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/service-worker.js?v=3');
+                navigator.serviceWorker.register('/service-worker.js?v=4');
             });
         }
 

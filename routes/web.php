@@ -24,56 +24,42 @@ use App\Http\Controllers\AndonController;
 use App\Http\Controllers\ActivityLogController;
 use Illuminate\Support\Facades\Storage;
 
-// PWA Dynamic Web App Manifest
+// PWA Dynamic Web App Manifest & Dynamic Icons
+Route::get('/pwa-icon/{size}.png', [AppSettingController::class, 'pwaIcon'])->name('pwa.icon');
+
 Route::get('/manifest.json', function () {
     $appName = app_setting('app_name', 'HBT Produksi');
     $shortName = app_setting('app_short_name', $appName);
-    $logoUrl = app_logo_url();
+    $version = md5($appName . app_logo_url());
 
-    $icons = [];
-    if (!empty($logoUrl)) {
-        $icons[] = [
-            'src' => $logoUrl,
+    $icon192 = url('/pwa-icon/192.png') . '?v=' . $version;
+    $icon512 = url('/pwa-icon/512.png') . '?v=' . $version;
+
+    $icons = [
+        [
+            'src' => $icon192,
             'sizes' => '192x192',
             'type' => 'image/png',
             'purpose' => 'any',
-        ];
-        $icons[] = [
-            'src' => $logoUrl,
+        ],
+        [
+            'src' => $icon192,
+            'sizes' => '192x192',
+            'type' => 'image/png',
+            'purpose' => 'maskable',
+        ],
+        [
+            'src' => $icon512,
             'sizes' => '512x512',
             'type' => 'image/png',
             'purpose' => 'any',
-        ];
-        $icons[] = [
-            'src' => $logoUrl,
+        ],
+        [
+            'src' => $icon512,
             'sizes' => '512x512',
             'type' => 'image/png',
             'purpose' => 'maskable',
-        ];
-    }
-    $icons[] = [
-        'src' => '/images/favicon192.png',
-        'sizes' => '192x192',
-        'type' => 'image/png',
-        'purpose' => 'any',
-    ];
-    $icons[] = [
-        'src' => '/images/favicon192.png',
-        'sizes' => '192x192',
-        'type' => 'image/png',
-        'purpose' => 'maskable',
-    ];
-    $icons[] = [
-        'src' => '/images/favicon512.png',
-        'sizes' => '512x512',
-        'type' => 'image/png',
-        'purpose' => 'any',
-    ];
-    $icons[] = [
-        'src' => '/images/favicon512.png',
-        'sizes' => '512x512',
-        'type' => 'image/png',
-        'purpose' => 'maskable',
+        ],
     ];
 
     return response()->json([
@@ -94,52 +80,36 @@ Route::get('/manifest.json', function () {
 Route::get('/app.webmanifest', function () {
     $appName = app_setting('app_name', 'HBT Produksi');
     $shortName = app_setting('app_short_name', $appName);
-    $logoUrl = app_logo_url();
+    $version = md5($appName . app_logo_url());
 
-    $icons = [];
-    if (!empty($logoUrl)) {
-        $icons[] = [
-            'src' => $logoUrl,
+    $icon192 = url('/pwa-icon/192.png') . '?v=' . $version;
+    $icon512 = url('/pwa-icon/512.png') . '?v=' . $version;
+
+    $icons = [
+        [
+            'src' => $icon192,
             'sizes' => '192x192',
             'type' => 'image/png',
             'purpose' => 'any',
-        ];
-        $icons[] = [
-            'src' => $logoUrl,
+        ],
+        [
+            'src' => $icon192,
+            'sizes' => '192x192',
+            'type' => 'image/png',
+            'purpose' => 'maskable',
+        ],
+        [
+            'src' => $icon512,
             'sizes' => '512x512',
             'type' => 'image/png',
             'purpose' => 'any',
-        ];
-        $icons[] = [
-            'src' => $logoUrl,
+        ],
+        [
+            'src' => $icon512,
             'sizes' => '512x512',
             'type' => 'image/png',
             'purpose' => 'maskable',
-        ];
-    }
-    $icons[] = [
-        'src' => '/images/favicon192.png',
-        'sizes' => '192x192',
-        'type' => 'image/png',
-        'purpose' => 'any',
-    ];
-    $icons[] = [
-        'src' => '/images/favicon192.png',
-        'sizes' => '192x192',
-        'type' => 'image/png',
-        'purpose' => 'maskable',
-    ];
-    $icons[] = [
-        'src' => '/images/favicon512.png',
-        'sizes' => '512x512',
-        'type' => 'image/png',
-        'purpose' => 'any',
-    ];
-    $icons[] = [
-        'src' => '/images/favicon512.png',
-        'sizes' => '512x512',
-        'type' => 'image/png',
-        'purpose' => 'maskable',
+        ],
     ];
 
     return response()->json([
