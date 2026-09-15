@@ -208,16 +208,34 @@ class AppSetting extends Model
             'orientation' => 'portrait-primary',
             'icons' => [
                 [
-                    'src' => $logoUrl,
+                    'src' => '/images/favicon192.png',
                     'sizes' => '192x192',
                     'type' => 'image/png',
-                    'purpose' => 'any maskable',
+                    'purpose' => 'any',
+                ],
+                [
+                    'src' => '/images/favicon192.png',
+                    'sizes' => '192x192',
+                    'type' => 'image/png',
+                    'purpose' => 'maskable',
+                ],
+                [
+                    'src' => '/images/favicon512.png',
+                    'sizes' => '512x512',
+                    'type' => 'image/png',
+                    'purpose' => 'any',
+                ],
+                [
+                    'src' => '/images/favicon512.png',
+                    'sizes' => '512x512',
+                    'type' => 'image/png',
+                    'purpose' => 'maskable',
                 ],
                 [
                     'src' => $logoUrl,
                     'sizes' => '512x512',
                     'type' => 'image/png',
-                    'purpose' => 'any maskable',
+                    'purpose' => 'any',
                 ],
             ],
         ];
