@@ -393,7 +393,7 @@
 
                         {{-- Bagian Kiri: Copyright --}}
                         <div class="text-center md:text-left mb-4 md:mb-0">
-                            <p>&copy; {{ date('Y') }} {{ app_setting('footer_text', (app_setting('company_name') ? app_setting('company_name') . '. All rights reserved.' : app_setting('app_name', 'AEJ Manufactra') . '. All rights reserved.')) }}</p>
+                            <p>&copy; {{ date('Y') }} {{ app_footer_text() }}</p>
                         </div>
 
                         {{-- Bagian Kanan: Link & Versi --}}

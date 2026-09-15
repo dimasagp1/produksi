@@ -51,3 +51,15 @@ if (!function_exists('app_logo_path')) {
         return AppSetting::getLogoPath();
     }
 }
+
+if (!function_exists('app_footer_text')) {
+    /**
+     * Get the active footer text.
+     *
+     * @return string
+     */
+    function app_footer_text(): string
+    {
+        return AppSetting::getFooterText();
+    }
+}

@@ -157,5 +157,31 @@ class AppSetting extends Model
 
         return public_path('images/aej.png');
     }
+
+    /**
+     * Get active footer copyright text.
+     */
+    public static function getFooterText(): string
+    {
+        $footerText = self::get('footer_text');
+        $companyName = self::get('company_name');
+        $appName = self::get('app_name', 'AEJ Manufactra');
+
+        // If user customized footer_text and it is not the legacy AEJ string
+        if (!empty($footerText) && !str_contains($footerText, 'Abhimata Emas Juara')) {
+            return $footerText;
+        }
+
+        // If company_name is customized (e.g. PT Herbatech Innopharma)
+        if (!empty($companyName) && !str_contains($companyName, 'Abhimata Emas Juara')) {
+            return $companyName . '. All rights reserved.';
+        }
+
+        if (!empty($footerText)) {
+            return $footerText;
+        }
+
+        return ($companyName ?: $appName) . '. All rights reserved.';
+    }
 }
 

@@ -182,7 +182,7 @@
                     {{-- Footer --}}
                     <div class="mt-10 border-t border-slate-200 pt-6">
                         <p class="text-xs text-center text-slate-500 font-medium">
-                            &copy; {{ date('Y') }} {{ app_setting('footer_text', (app_setting('company_name') ? app_setting('company_name') . '. All rights reserved.' : app_setting('app_name', 'AEJ Manufactra') . '. All rights reserved.')) }}
+                            &copy; {{ date('Y') }} {{ app_footer_text() }}
                         </p>
                     </div>
                 </div>

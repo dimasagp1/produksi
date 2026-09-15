@@ -112,6 +112,7 @@
                                     </span>
                                     <input type="text" name="company_name" id="company_name"
                                         x-model="companyName"
+                                        @input="onCompanyChange()"
                                         value="{{ old('company_name', $settings['company_name'] ?? 'PT Abhimata Emas Juara') }}"
                                         class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 text-sm font-medium focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all">
                                 </div>
@@ -179,7 +180,8 @@
                                 </span>
                                 <input type="text" name="footer_text" id="footer_text"
                                     x-model="footerText"
-                                    value="{{ old('footer_text', $settings['footer_text'] ?? 'PT Abhimata Emas Juara. All rights reserved.') }}"
+                                    @input="footerManuallyChanged = true"
+                                    value="{{ old('footer_text', app_footer_text()) }}"
                                     class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 text-sm font-medium focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all">
                             </div>
                             <p class="mt-1 text-[11px] text-slate-400">Teks hak cipta yang muncul di bagian paling bawah website dan halaman login.</p>
@@ -393,11 +395,18 @@
 
                             {{-- PREVIEW 4: FOOTER COPYRIGHT --}}
                             <div>
-                                <span class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-2">
-                                    4. Tampilan Copyright Footer
-                                </span>
-                                <div class="bg-slate-50 dark:bg-slate-900 rounded-xl p-3 border border-slate-200 dark:border-slate-700 text-center text-xs text-slate-500">
-                                    &copy; {{ date('Y') }} <span x-text="footerText || ((companyName || appName) + '. All rights reserved.')"></span>
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
+                                        4. Tampilan Copyright Footer
+                                    </span>
+                                    <span class="text-[10px] text-brand-600 dark:text-brand-400 font-medium">Klik untuk edit</span>
+                                </div>
+                                <div @click="focusFooterInput()"
+                                    class="bg-slate-50 hover:bg-slate-100 dark:bg-slate-900 dark:hover:bg-slate-850 rounded-xl p-3 border border-dashed border-brand-300 dark:border-brand-700 text-center text-xs text-slate-600 dark:text-slate-400 cursor-pointer transition-all duration-200 hover:border-brand-500 hover:shadow-sm group">
+                                    &copy; {{ date('Y') }} <span class="font-semibold text-slate-800 dark:text-slate-200" x-text="footerText || ((companyName || appName) + '. All rights reserved.')"></span>
+                                    <div class="text-[10px] text-brand-500 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <i class="fa-solid fa-pen-to-square mr-1"></i>Klik untuk ubah teks ini di formulir
+                                    </div>
                                 </div>
                             </div>
 
@@ -430,9 +439,26 @@
                 appTagline: '{{ addslashes($settings['app_tagline'] ?? 'Unified System') }}',
                 appSubTagline: '{{ addslashes($settings['app_sub_tagline'] ?? 'Production System') }}',
                 appDesc: '{{ addslashes($settings['app_description'] ?? 'Sistem ERP manufaktur terintegrasi untuk efisiensi produksi dan pemantauan real-time.') }}',
-                footerText: '{{ addslashes($settings['footer_text'] ?? 'PT Abhimata Emas Juara. All rights reserved.') }}',
+                footerText: '{{ addslashes(old('footer_text', app_footer_text())) }}',
                 logoPreviewUrl: '{{ app_logo_url() }}',
                 faviconPreviewUrl: '{{ app_favicon_url() }}',
+                footerManuallyChanged: false,
+
+                onCompanyChange() {
+                    if (!this.footerManuallyChanged) {
+                        this.footerText = (this.companyName || this.appName) + '. All rights reserved.';
+                    }
+                },
+
+                focusFooterInput() {
+                    const el = document.getElementById('footer_text');
+                    if (el) {
+                        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        el.focus();
+                        el.classList.add('ring-4', 'ring-brand-500/30');
+                        setTimeout(() => el.classList.remove('ring-4', 'ring-brand-500/30'), 2000);
+                    }
+                },
 
                 handleLogoChange(event) {
                     const file = event.target.files[0];
