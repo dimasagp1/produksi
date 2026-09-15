@@ -163,9 +163,16 @@
 
                         {{-- Footer Text --}}
                         <div>
-                            <label for="footer_text" class="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">
-                                Teks Copyright Footer
-                            </label>
+                            <div class="flex items-center justify-between mb-2">
+                                <label for="footer_text" class="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
+                                    Teks Copyright Footer
+                                </label>
+                                <button type="button" @click="footerText = (companyName || appName) + '. All rights reserved.'"
+                                    class="text-[11px] text-brand-600 dark:text-brand-400 hover:underline font-semibold flex items-center gap-1">
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                    <span>Sesuaikan dengan Nama Perusahaan</span>
+                                </button>
+                            </div>
                             <div class="relative">
                                 <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                                     <i class="fa-regular fa-copyright"></i>
@@ -175,6 +182,7 @@
                                     value="{{ old('footer_text', $settings['footer_text'] ?? 'PT Abhimata Emas Juara. All rights reserved.') }}"
                                     class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 text-sm font-medium focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all">
                             </div>
+                            <p class="mt-1 text-[11px] text-slate-400">Teks hak cipta yang muncul di bagian paling bawah website dan halaman login.</p>
                         </div>
                     </div>
                 </div>
