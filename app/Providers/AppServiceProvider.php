@@ -16,6 +16,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        // Support shared hosting where public web root is public_html
+        if (is_dir(base_path('public_html')) && !is_dir(base_path('public'))) {
+            $this->app->usePublicPath(base_path('public_html'));
+        }
+
         // Require global helpers
         $helpers = app_path('Helpers/helpers.php');
         if (file_exists($helpers)) {

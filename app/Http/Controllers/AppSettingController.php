@@ -46,13 +46,13 @@ class AppSettingController extends Controller
             'app_description' => 'nullable|string|max:1000',
             'footer_text' => 'nullable|string|max:255',
             'footer_location' => 'nullable|string|max:100',
-            'app_logo' => 'nullable|image|mimes:jpeg,png,jpg,webp,svg|max:2048',
-            'app_favicon' => 'nullable|file|mimes:jpeg,png,jpg,webp,svg,ico|max:1024',
+            'app_logo' => 'nullable|file|mimes:jpeg,png,jpg,webp,svg|max:5120',
+            'app_favicon' => 'nullable|file|max:2048',
         ], [
             'app_name.required' => 'Nama website / aplikasi wajib diisi.',
-            'app_logo.image' => 'File logo harus berupa gambar yang valid (PNG, JPG, SVG, WEBP).',
-            'app_logo.max' => 'Ukuran file logo maksimal 2MB.',
-            'app_favicon.max' => 'Ukuran file favicon maksimal 1MB.',
+            'app_logo.mimes' => 'File logo harus berupa gambar yang valid (PNG, JPG, SVG, WEBP).',
+            'app_logo.max' => 'Ukuran file logo maksimal 5MB.',
+            'app_favicon.max' => 'Ukuran file favicon maksimal 2MB.',
         ]);
 
         // Simpan text field
@@ -73,21 +73,43 @@ class AppSettingController extends Controller
             }
         }
 
-        $uploadDir = public_path('uploads/settings');
-        if (!File::isDirectory($uploadDir)) {
-            File::makeDirectory($uploadDir, 0755, true, true);
+        $uploadDirs = [
+            public_path('uploads/settings'),
+        ];
+        if (is_dir(base_path('public_html'))) {
+            $uploadDirs[] = base_path('public_html/uploads/settings');
         }
+
+        foreach ($uploadDirs as $dir) {
+            if (!File::isDirectory($dir)) {
+                try {
+                    File::makeDirectory($dir, 0775, true, true);
+                } catch (\Throwable $e) {
+                    // Silently continue
+                }
+            }
+        }
+
+        $mainUploadDir = public_path('uploads/settings');
 
         // Handle upload logo
         if ($request->hasFile('app_logo')) {
             $oldLogo = AppSetting::get('app_logo');
-            if ($oldLogo && File::exists(public_path($oldLogo))) {
-                File::delete(public_path($oldLogo));
+            if ($oldLogo) {
+                @File::delete(public_path($oldLogo));
+                if (is_dir(base_path('public_html'))) {
+                    @File::delete(base_path('public_html/' . $oldLogo));
+                }
             }
 
             $file = $request->file('app_logo');
             $filename = 'logo_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            $file->move($uploadDir, $filename);
+            $file->move($mainUploadDir, $filename);
+
+            // Sync to public_html if exists and distinct
+            if (is_dir(base_path('public_html')) && realpath($mainUploadDir) !== realpath(base_path('public_html/uploads/settings'))) {
+                @File::copy($mainUploadDir . '/' . $filename, base_path('public_html/uploads/settings/' . $filename));
+            }
 
             AppSetting::set('app_logo', 'uploads/settings/' . $filename, 'image', 'appearance');
         }
@@ -95,13 +117,21 @@ class AppSettingController extends Controller
         // Handle upload favicon
         if ($request->hasFile('app_favicon')) {
             $oldFavicon = AppSetting::get('app_favicon');
-            if ($oldFavicon && File::exists(public_path($oldFavicon))) {
-                File::delete(public_path($oldFavicon));
+            if ($oldFavicon) {
+                @File::delete(public_path($oldFavicon));
+                if (is_dir(base_path('public_html'))) {
+                    @File::delete(base_path('public_html/' . $oldFavicon));
+                }
             }
 
             $file = $request->file('app_favicon');
             $filename = 'favicon_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            $file->move($uploadDir, $filename);
+            $file->move($mainUploadDir, $filename);
+
+            // Sync to public_html if exists and distinct
+            if (is_dir(base_path('public_html')) && realpath($mainUploadDir) !== realpath(base_path('public_html/uploads/settings'))) {
+                @File::copy($mainUploadDir . '/' . $filename, base_path('public_html/uploads/settings/' . $filename));
+            }
 
             AppSetting::set('app_favicon', 'uploads/settings/' . $filename, 'image', 'appearance');
         }
@@ -119,8 +149,11 @@ class AppSettingController extends Controller
         $this->checkSuperAdmin();
 
         $oldLogo = AppSetting::get('app_logo');
-        if ($oldLogo && File::exists(public_path($oldLogo))) {
-            File::delete(public_path($oldLogo));
+        if ($oldLogo) {
+            @File::delete(public_path($oldLogo));
+            if (is_dir(base_path('public_html'))) {
+                @File::delete(base_path('public_html/' . $oldLogo));
+            }
         }
 
         AppSetting::set('app_logo', null, 'image', 'appearance');
@@ -137,8 +170,11 @@ class AppSettingController extends Controller
         $this->checkSuperAdmin();
 
         $oldFavicon = AppSetting::get('app_favicon');
-        if ($oldFavicon && File::exists(public_path($oldFavicon))) {
-            File::delete(public_path($oldFavicon));
+        if ($oldFavicon) {
+            @File::delete(public_path($oldFavicon));
+            if (is_dir(base_path('public_html'))) {
+                @File::delete(base_path('public_html/' . $oldFavicon));
+            }
         }
 
         AppSetting::set('app_favicon', null, 'image', 'appearance');

@@ -84,10 +84,9 @@ class AppSetting extends Model
     {
         $logo = self::get('app_logo');
 
-        if ($logo) {
-            if (file_exists(public_path($logo)) || file_exists(base_path('public_html/' . $logo))) {
-                return asset($logo);
-            }
+        // If user set a custom logo, always return its URL directly
+        if (!empty($logo)) {
+            return asset($logo);
         }
 
         // 1. Check official transparent brand logo (aej.png)
@@ -116,10 +115,9 @@ class AppSetting extends Model
     {
         $favicon = self::get('app_favicon');
 
-        if ($favicon) {
-            if (file_exists(public_path($favicon)) || file_exists(base_path('public_html/' . $favicon))) {
-                return asset($favicon);
-            }
+        // If user set a custom favicon, always return its URL directly
+        if (!empty($favicon)) {
+            return asset($favicon);
         }
 
         // Fallback default favicon
