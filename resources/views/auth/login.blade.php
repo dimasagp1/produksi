@@ -107,7 +107,8 @@
                     <div class="mb-10">
                         <div class="flex items-center gap-4 mb-8">
                             <img src="{{ app_logo_url() }}" alt="{{ app_setting('app_name', 'AEJ Logo') }}"
-                                class="h-16 w-auto object-contain rounded-lg">
+                                onerror="this.onerror=null; this.src='{{ asset('images/aej.png') }}';"
+                                class="h-14 w-auto object-contain rounded-lg">
                             <span class="font-display font-bold text-2xl text-slate-900 tracking-tight">
                                 {{ app_setting('app_name', 'AEJ ProductionApp') }}
                             </span>

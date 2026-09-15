@@ -183,7 +183,8 @@
             <div class="flex items-center justify-between h-16 px-4 bg-slate-900 border-b border-slate-800 shrink-0">
                 <a href="/" class="flex items-center gap-3 group">
                     <img src="{{ app_logo_url() }}" alt="Logo"
-                        class="object-contain w-12 h-12 rounded-lg transition-transform group-hover:scale-110">
+                        onerror="this.onerror=null; this.src='{{ asset('images/aej.png') }}';"
+                        class="object-contain w-10 h-10 rounded-lg p-1 bg-white/10 transition-transform group-hover:scale-110">
                     <div x-show="!sidebarCollapsed" class="flex flex-col transition-opacity duration-200">
                         <span class="text-base font-bold tracking-tight text-white leading-none">{{ app_setting('app_name', 'AEJ Manufactra') }}</span>
                         <span class="text-[10px] text-slate-500 font-medium tracking-widest uppercase mt-0.5">{{ app_setting('app_tagline', 'Unified System') }}</span>
@@ -431,7 +432,7 @@
                 <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-brand-500 to-brand-600"></div>
                 <div
                     class="mx-auto flex items-center justify-center h-16 w-16 rounded-2xl bg-brand-50 dark:bg-brand-900/20 mb-6 shadow-sm">
-                    <img src="{{ app_logo_url() }}" class="h-10 w-10 object-contain" alt="Logo">
+                    <img src="{{ app_logo_url() }}" class="h-10 w-10 object-contain" alt="Logo" onerror="this.onerror=null; this.src='{{ asset('images/aej.png') }}';">
                 </div>
                 <h3 class="text-xl font-extrabold text-slate-900 dark:text-white">{{ app_setting('app_name', 'AEJ Manufactra') }}</h3>
                 <p class="text-xs text-brand-600 font-bold tracking-widest uppercase mb-6">{{ app_setting('app_sub_tagline', 'Production System') }}</p>

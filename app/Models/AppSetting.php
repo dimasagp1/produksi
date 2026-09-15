@@ -77,20 +77,36 @@ class AppSetting extends Model
     /**
      * Get public URL for the website logo.
      */
+    /**
+     * Get public URL for the website logo.
+     */
     public static function getLogoUrl(): string
     {
         $logo = self::get('app_logo');
 
-        if ($logo && file_exists(public_path($logo))) {
-            return asset($logo);
+        if ($logo) {
+            if (file_exists(public_path($logo)) || file_exists(base_path('public_html/' . $logo))) {
+                return asset($logo);
+            }
         }
 
-        // Fallback default image
-        if (file_exists(public_path('images/logo.jpg'))) {
+        // 1. Check official transparent brand logo (aej.png)
+        if (file_exists(public_path('images/aej.png')) || file_exists(base_path('public_html/images/aej.png'))) {
+            return asset('images/aej.png');
+        }
+
+        // 2. Check logo.png
+        if (file_exists(public_path('images/logo.png')) || file_exists(base_path('public_html/images/logo.png'))) {
+            return asset('images/logo.png');
+        }
+
+        // 3. Check logo.jpg
+        if (file_exists(public_path('images/logo.jpg')) || file_exists(base_path('public_html/images/logo.jpg'))) {
             return asset('images/logo.jpg');
         }
 
-        return asset('images/logo.png');
+        // Ultimate fallback
+        return asset('images/aej.png');
     }
 
     /**
@@ -100,16 +116,22 @@ class AppSetting extends Model
     {
         $favicon = self::get('app_favicon');
 
-        if ($favicon && file_exists(public_path($favicon))) {
-            return asset($favicon);
+        if ($favicon) {
+            if (file_exists(public_path($favicon)) || file_exists(base_path('public_html/' . $favicon))) {
+                return asset($favicon);
+            }
         }
 
         // Fallback default favicon
-        if (file_exists(public_path('images/favicon.jpg'))) {
+        if (file_exists(public_path('images/favicon.jpg')) || file_exists(base_path('public_html/images/favicon.jpg'))) {
             return asset('images/favicon.jpg');
         }
 
-        return asset('favicon.ico');
+        if (file_exists(public_path('images/aej.png')) || file_exists(base_path('public_html/images/aej.png'))) {
+            return asset('images/aej.png');
+        }
+
+        return asset('images/favicon.jpg');
     }
 
     /**
@@ -123,10 +145,19 @@ class AppSetting extends Model
             return public_path($logo);
         }
 
+        if (file_exists(public_path('images/aej.png'))) {
+            return public_path('images/aej.png');
+        }
+
+        if (file_exists(public_path('images/logo.jpg'))) {
+            return public_path('images/logo.jpg');
+        }
+
         if (file_exists(public_path('images/logo.png'))) {
             return public_path('images/logo.png');
         }
 
-        return public_path('images/logo.jpg');
+        return public_path('images/aej.png');
     }
 }
+

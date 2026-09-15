@@ -232,10 +232,10 @@
         <div
             class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl p-6 rounded-3xl shadow-lg border border-white/50 dark:border-slate-700">
             <form action="{{ route('dashboard') }}" method="GET"
-                class="flex flex-col xl:flex-row items-end gap-6 justify-between">
-                <div class="flex flex-col md:flex-row items-end gap-4 w-full xl:w-auto">
+                class="flex flex-col 2xl:flex-row items-stretch 2xl:items-end gap-4 justify-between">
+                <div class="flex flex-wrap items-end gap-3.5 w-full 2xl:w-auto flex-1">
                     {{-- Start Date --}}
-                    <div class="w-full md:w-auto group">
+                    <div class="w-full sm:w-40 group">
                         <label
                             class="block text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1.5 ml-1">Periode
                             Awal</label>
@@ -243,12 +243,12 @@
                             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"><i
                                     class="fa-regular fa-calendar-days text-brand-500 z-10"></i></div>
                             <input type="text" name="start_date" id="start_date"
-                                class="block w-full md:w-44 h-[50px] pl-11 pr-4 bg-slate-50 dark:bg-slate-900 border-0 ring-1 ring-slate-200 dark:ring-slate-700 rounded-2xl text-sm font-semibold text-slate-700 dark:text-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-brand-500 transition-all shadow-sm"
+                                class="block w-full h-[50px] pl-11 pr-4 bg-slate-50 dark:bg-slate-900 border-0 ring-1 ring-slate-200 dark:ring-slate-700 rounded-2xl text-sm font-semibold text-slate-700 dark:text-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-brand-500 transition-all shadow-sm"
                                 placeholder="Pilih Tanggal" value="{{ $startDate->format('Y-m-d') }}">
                         </div>
                     </div>
                     {{-- End Date --}}
-                    <div class="w-full md:w-auto group">
+                    <div class="w-full sm:w-40 group">
                         <label
                             class="block text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1.5 ml-1">Periode
                             Akhir</label>
@@ -256,12 +256,12 @@
                             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"><i
                                     class="fa-regular fa-calendar-check text-brand-500 z-10"></i></div>
                             <input type="text" name="end_date" id="end_date"
-                                class="block w-full md:w-44 h-[50px] pl-11 pr-4 bg-slate-50 dark:bg-slate-900 border-0 ring-1 ring-slate-200 dark:ring-slate-700 rounded-2xl text-sm font-semibold text-slate-700 dark:text-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-brand-500 transition-all shadow-sm"
+                                class="block w-full h-[50px] pl-11 pr-4 bg-slate-50 dark:bg-slate-900 border-0 ring-1 ring-slate-200 dark:ring-slate-700 rounded-2xl text-sm font-semibold text-slate-700 dark:text-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-brand-500 transition-all shadow-sm"
                                 placeholder="Pilih Tanggal" value="{{ $endDate->format('Y-m-d') }}">
                         </div>
                     </div>
                     {{-- Product Select --}}
-                    <div id="product-select-wrapper" class="w-full md:w-[320px] group">
+                    <div id="product-select-wrapper" class="w-full sm:w-60 md:w-72 flex-1 min-w-[200px] max-w-sm group">
                         <label
                             class="block text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1.5 ml-1">Filter
                             Produk</label>
@@ -276,21 +276,21 @@
                         </div>
                     </div>
                     {{-- Submit Button --}}
-                    <div class="w-full md:w-auto">
+                    <div class="w-full sm:w-auto">
                         <label
-                            class="block text-[10px] uppercase tracking-wider font-bold text-transparent mb-1.5">Action</label>
+                            class="hidden sm:block text-[10px] uppercase tracking-wider font-bold text-transparent mb-1.5">Action</label>
                         <button type="submit"
-                            class="h-[50px] px-8 bg-slate-900 hover:bg-slate-800 dark:bg-indigo-600 dark:hover:bg-indigo-500 text-white rounded-2xl text-sm font-bold shadow-lg transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2"><i
+                            class="w-full sm:w-auto h-[50px] px-6 bg-slate-900 hover:bg-slate-800 dark:bg-indigo-600 dark:hover:bg-indigo-500 text-white rounded-2xl text-sm font-bold shadow-lg transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2"><i
                                 class="fa-solid fa-filter"></i> <span>Terapkan</span></button>
                     </div>
                 </div>
                 {{-- Export Buttons --}}
-                <div class="flex gap-3 w-full xl:w-auto mt-4 xl:mt-0">
+                <div class="flex items-center gap-2.5 w-full sm:w-auto justify-end shrink-0 mt-3 2xl:mt-0 pt-3 2xl:pt-0 border-t 2xl:border-t-0 border-slate-200/60 dark:border-slate-700/60">
                     <button type="button" onclick="downloadExport('excel')"
-                        class="flex-1 xl:flex-none h-[50px] px-6 bg-emerald-50 text-emerald-600 ring-1 ring-emerald-200 hover:bg-emerald-500 hover:text-white rounded-2xl text-sm font-bold transition-all duration-300 flex items-center justify-center gap-2 group"><i
+                        class="flex-1 sm:flex-none h-[50px] px-5 bg-emerald-50 text-emerald-600 ring-1 ring-emerald-200 hover:bg-emerald-500 hover:text-white rounded-2xl text-sm font-bold transition-all duration-300 flex items-center justify-center gap-2 group"><i
                             class="fa-solid fa-file-excel text-lg group-hover:scale-110 transition-transform"></i><span>Excel</span></button>
                     <button type="button" onclick="downloadExport('pdf')"
-                        class="flex-1 xl:flex-none h-[50px] px-6 bg-rose-50 text-rose-600 ring-1 ring-rose-200 hover:bg-rose-500 hover:text-white rounded-2xl text-sm font-bold transition-all duration-300 flex items-center justify-center gap-2 group"><i
+                        class="flex-1 sm:flex-none h-[50px] px-5 bg-rose-50 text-rose-600 ring-1 ring-rose-200 hover:bg-rose-500 hover:text-white rounded-2xl text-sm font-bold transition-all duration-300 flex items-center justify-center gap-2 group"><i
                             class="fa-solid fa-file-pdf text-lg group-hover:scale-110 transition-transform"></i><span>PDF</span></button>
                 </div>
             </form>
