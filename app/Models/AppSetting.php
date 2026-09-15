@@ -198,6 +198,53 @@ class AppSetting extends Model
         $shortName = self::get('app_short_name', $appName);
         $logoUrl = self::getLogoUrl();
 
+        $icons = [];
+        if (!empty($logoUrl)) {
+            $icons[] = [
+                'src' => $logoUrl,
+                'sizes' => '192x192',
+                'type' => 'image/png',
+                'purpose' => 'any',
+            ];
+            $icons[] = [
+                'src' => $logoUrl,
+                'sizes' => '512x512',
+                'type' => 'image/png',
+                'purpose' => 'any',
+            ];
+            $icons[] = [
+                'src' => $logoUrl,
+                'sizes' => '512x512',
+                'type' => 'image/png',
+                'purpose' => 'maskable',
+            ];
+        }
+
+        $icons[] = [
+            'src' => '/images/favicon192.png',
+            'sizes' => '192x192',
+            'type' => 'image/png',
+            'purpose' => 'any',
+        ];
+        $icons[] = [
+            'src' => '/images/favicon192.png',
+            'sizes' => '192x192',
+            'type' => 'image/png',
+            'purpose' => 'maskable',
+        ];
+        $icons[] = [
+            'src' => '/images/favicon512.png',
+            'sizes' => '512x512',
+            'type' => 'image/png',
+            'purpose' => 'any',
+        ];
+        $icons[] = [
+            'src' => '/images/favicon512.png',
+            'sizes' => '512x512',
+            'type' => 'image/png',
+            'purpose' => 'maskable',
+        ];
+
         $data = [
             'name' => $appName,
             'short_name' => $shortName,
@@ -206,38 +253,7 @@ class AppSetting extends Model
             'background_color' => '#0f172a',
             'theme_color' => '#4f46e5',
             'orientation' => 'portrait-primary',
-            'icons' => [
-                [
-                    'src' => '/images/favicon192.png',
-                    'sizes' => '192x192',
-                    'type' => 'image/png',
-                    'purpose' => 'any',
-                ],
-                [
-                    'src' => '/images/favicon192.png',
-                    'sizes' => '192x192',
-                    'type' => 'image/png',
-                    'purpose' => 'maskable',
-                ],
-                [
-                    'src' => '/images/favicon512.png',
-                    'sizes' => '512x512',
-                    'type' => 'image/png',
-                    'purpose' => 'any',
-                ],
-                [
-                    'src' => '/images/favicon512.png',
-                    'sizes' => '512x512',
-                    'type' => 'image/png',
-                    'purpose' => 'maskable',
-                ],
-                [
-                    'src' => $logoUrl,
-                    'sizes' => '512x512',
-                    'type' => 'image/png',
-                    'purpose' => 'any',
-                ],
-            ],
+            'icons' => $icons,
         ];
 
         $json = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
@@ -252,6 +268,44 @@ class AppSetting extends Model
         foreach ($paths as $path) {
             try {
                 @file_put_contents($path, $json);
+            } catch (\Throwable $e) {
+                // Silently ignore
+            }
+        }
+    }
+
+    /**
+     * Synchronize an uploaded logo/favicon image to static PWA icon paths.
+     */
+    public static function syncPwaIcons(string $sourcePath): void
+    {
+        if (!file_exists($sourcePath)) {
+            return;
+        }
+
+        $destinations = [
+            public_path('images/favicon192.png'),
+            public_path('images/favicon512.png'),
+            public_path('images/logo.png'),
+            public_path('images/logo.jpg'),
+            public_path('images/aej.png'),
+        ];
+
+        if (is_dir(base_path('public_html'))) {
+            $destinations[] = base_path('public_html/images/favicon192.png');
+            $destinations[] = base_path('public_html/images/favicon512.png');
+            $destinations[] = base_path('public_html/images/logo.png');
+            $destinations[] = base_path('public_html/images/logo.jpg');
+            $destinations[] = base_path('public_html/images/aej.png');
+        }
+
+        foreach ($destinations as $dest) {
+            try {
+                $dir = dirname($dest);
+                if (!is_dir($dir)) {
+                    @mkdir($dir, 0775, true);
+                }
+                @copy($sourcePath, $dest);
             } catch (\Throwable $e) {
                 // Silently ignore
             }

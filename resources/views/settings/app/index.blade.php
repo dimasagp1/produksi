@@ -79,10 +79,12 @@
                                 </span>
                                 <input type="text" name="app_name" id="app_name" required
                                     x-model="appName"
-                                    value="{{ old('app_name', $settings['app_name'] ?? 'AEJ Manufactra') }}"
+                                    value="{{ old('app_name', $settings['app_name'] ?? 'HBT Produksi') }}"
                                     class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 text-sm font-medium focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all">
                             </div>
-                            <p class="mt-1 text-[11px] text-slate-400">Ditampilkan di tab browser, judul header sidebar, dan login.</p>
+                            <p class="mt-1 text-[11px] text-slate-400">
+                                Ditampilkan di tab browser, header sidebar, login, dan <strong>nama aplikasi saat di-install (PWA)</strong>.
+                            </p>
                         </div>
 
                         {{-- Grid 2 Kolom: Singkatan & Nama Perusahaan --}}
@@ -218,7 +220,7 @@
                                         @endif
                                     </h3>
                                     <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                                        Ditampilkan pada sidebar, halaman login, modal sistem, dan ekspor.
+                                        Ditampilkan pada sidebar, halaman login, modal sistem, dan <strong>ikon aplikasi saat di-install (PWA)</strong>.
                                     </p>
                                 </div>
 
@@ -410,6 +412,38 @@
                                 </div>
                             </div>
 
+                            {{-- PREVIEW 5: PWA INSTALL MODAL --}}
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
+                                        5. Tampilan Saat Install App (PWA)
+                                    </span>
+                                    <span class="px-2 py-0.5 text-[10px] font-bold bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300 rounded-full">PWA Modal</span>
+                                </div>
+                                <div class="bg-slate-900 text-white rounded-2xl p-4 shadow-xl border border-slate-800">
+                                    <div class="text-sm font-semibold text-slate-200 mb-3 flex items-center justify-between">
+                                        <span>Install app</span>
+                                        <i class="fa-solid fa-download text-slate-500 text-xs"></i>
+                                    </div>
+                                    <div class="flex items-center gap-3.5 mb-4">
+                                        <div class="w-12 h-12 rounded-xl bg-slate-800 p-1.5 flex items-center justify-center shrink-0 border border-slate-700 shadow">
+                                            <img :src="logoPreviewUrl" alt="PWA Icon" class="max-h-full max-w-full object-contain">
+                                        </div>
+                                        <div class="flex flex-col min-w-0">
+                                            <span class="text-sm font-bold text-white truncate" x-text="appName || 'HBT Produksi'"></span>
+                                            <span class="text-xs text-indigo-400 truncate">{{ request()->getHost() }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-end gap-2 pt-2 border-t border-slate-800">
+                                        <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold text-slate-300 bg-slate-800/80 border border-slate-700">Cancel</span>
+                                        <span class="px-4 py-1.5 rounded-full text-xs font-bold text-white bg-indigo-600 shadow-md">Install</span>
+                                    </div>
+                                </div>
+                                <p class="mt-1.5 text-[11px] text-slate-400">
+                                    <i class="fa-solid fa-circle-check text-emerald-500 mr-1"></i>Nama & ikon di atas langsung mengikuti Nama Website & Logo yang Anda simpan.
+                                </p>
+                            </div>
+
                         </div>
                     </div>
 
@@ -433,10 +467,10 @@
     <script>
         function settingApp() {
             return {
-                appName: '{{ addslashes($settings['app_name'] ?? 'AEJ Manufactra') }}',
-                appShortName: '{{ addslashes($settings['app_short_name'] ?? 'AEJ App') }}',
-                companyName: '{{ addslashes($settings['company_name'] ?? 'PT Abhimata Emas Juara') }}',
-                appTagline: '{{ addslashes($settings['app_tagline'] ?? 'Unified System') }}',
+                appName: '{{ addslashes($settings['app_name'] ?? 'HBT Produksi') }}',
+                appShortName: '{{ addslashes($settings['app_short_name'] ?? 'HBT Produksi') }}',
+                companyName: '{{ addslashes($settings['company_name'] ?? 'Herbatech') }}',
+                appTagline: '{{ addslashes($settings['app_tagline'] ?? 'Unified Production System') }}',
                 appSubTagline: '{{ addslashes($settings['app_sub_tagline'] ?? 'Production System') }}',
                 appDesc: '{{ addslashes($settings['app_description'] ?? 'Sistem ERP manufaktur terintegrasi untuk efisiensi produksi dan pemantauan real-time.') }}',
                 footerText: '{{ addslashes(old('footer_text', app_footer_text())) }}',

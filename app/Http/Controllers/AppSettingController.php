@@ -106,12 +106,17 @@ class AppSettingController extends Controller
             $filename = 'logo_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
             $file->move($mainUploadDir, $filename);
 
+            $savedLogoPath = $mainUploadDir . '/' . $filename;
+
             // Sync to public_html if exists and distinct
             if (is_dir(base_path('public_html')) && realpath($mainUploadDir) !== realpath(base_path('public_html/uploads/settings'))) {
-                @File::copy($mainUploadDir . '/' . $filename, base_path('public_html/uploads/settings/' . $filename));
+                @File::copy($savedLogoPath, base_path('public_html/uploads/settings/' . $filename));
             }
 
             AppSetting::set('app_logo', 'uploads/settings/' . $filename, 'image', 'appearance');
+
+            // Synchronize logo to physical PWA icons for instant installation update
+            AppSetting::syncPwaIcons($savedLogoPath);
         }
 
         // Handle upload favicon
@@ -128,12 +133,19 @@ class AppSettingController extends Controller
             $filename = 'favicon_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
             $file->move($mainUploadDir, $filename);
 
+            $savedFaviconPath = $mainUploadDir . '/' . $filename;
+
             // Sync to public_html if exists and distinct
             if (is_dir(base_path('public_html')) && realpath($mainUploadDir) !== realpath(base_path('public_html/uploads/settings'))) {
-                @File::copy($mainUploadDir . '/' . $filename, base_path('public_html/uploads/settings/' . $filename));
+                @File::copy($savedFaviconPath, base_path('public_html/uploads/settings/' . $filename));
             }
 
             AppSetting::set('app_favicon', 'uploads/settings/' . $filename, 'image', 'appearance');
+
+            // If no custom logo has been uploaded, sync favicon to PWA icons
+            if (empty(AppSetting::get('app_logo'))) {
+                AppSetting::syncPwaIcons($savedFaviconPath);
+            }
         }
 
         AppSetting::clearCache();

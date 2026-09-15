@@ -30,6 +30,52 @@ Route::get('/manifest.json', function () {
     $shortName = app_setting('app_short_name', $appName);
     $logoUrl = app_logo_url();
 
+    $icons = [];
+    if (!empty($logoUrl)) {
+        $icons[] = [
+            'src' => $logoUrl,
+            'sizes' => '192x192',
+            'type' => 'image/png',
+            'purpose' => 'any',
+        ];
+        $icons[] = [
+            'src' => $logoUrl,
+            'sizes' => '512x512',
+            'type' => 'image/png',
+            'purpose' => 'any',
+        ];
+        $icons[] = [
+            'src' => $logoUrl,
+            'sizes' => '512x512',
+            'type' => 'image/png',
+            'purpose' => 'maskable',
+        ];
+    }
+    $icons[] = [
+        'src' => '/images/favicon192.png',
+        'sizes' => '192x192',
+        'type' => 'image/png',
+        'purpose' => 'any',
+    ];
+    $icons[] = [
+        'src' => '/images/favicon192.png',
+        'sizes' => '192x192',
+        'type' => 'image/png',
+        'purpose' => 'maskable',
+    ];
+    $icons[] = [
+        'src' => '/images/favicon512.png',
+        'sizes' => '512x512',
+        'type' => 'image/png',
+        'purpose' => 'any',
+    ];
+    $icons[] = [
+        'src' => '/images/favicon512.png',
+        'sizes' => '512x512',
+        'type' => 'image/png',
+        'purpose' => 'maskable',
+    ];
+
     return response()->json([
         'name' => $appName,
         'short_name' => $shortName,
@@ -38,38 +84,7 @@ Route::get('/manifest.json', function () {
         'background_color' => '#0f172a',
         'theme_color' => '#4f46e5',
         'orientation' => 'portrait-primary',
-        'icons' => [
-            [
-                'src' => '/images/favicon192.png',
-                'sizes' => '192x192',
-                'type' => 'image/png',
-                'purpose' => 'any',
-            ],
-            [
-                'src' => '/images/favicon192.png',
-                'sizes' => '192x192',
-                'type' => 'image/png',
-                'purpose' => 'maskable',
-            ],
-            [
-                'src' => '/images/favicon512.png',
-                'sizes' => '512x512',
-                'type' => 'image/png',
-                'purpose' => 'any',
-            ],
-            [
-                'src' => '/images/favicon512.png',
-                'sizes' => '512x512',
-                'type' => 'image/png',
-                'purpose' => 'maskable',
-            ],
-            [
-                'src' => $logoUrl,
-                'sizes' => '512x512',
-                'type' => 'image/png',
-                'purpose' => 'any',
-            ],
-        ],
+        'icons' => $icons,
     ], 200, [
         'Content-Type' => 'application/manifest+json; charset=utf-8',
         'Cache-Control' => 'no-cache, private',
@@ -81,6 +96,52 @@ Route::get('/app.webmanifest', function () {
     $shortName = app_setting('app_short_name', $appName);
     $logoUrl = app_logo_url();
 
+    $icons = [];
+    if (!empty($logoUrl)) {
+        $icons[] = [
+            'src' => $logoUrl,
+            'sizes' => '192x192',
+            'type' => 'image/png',
+            'purpose' => 'any',
+        ];
+        $icons[] = [
+            'src' => $logoUrl,
+            'sizes' => '512x512',
+            'type' => 'image/png',
+            'purpose' => 'any',
+        ];
+        $icons[] = [
+            'src' => $logoUrl,
+            'sizes' => '512x512',
+            'type' => 'image/png',
+            'purpose' => 'maskable',
+        ];
+    }
+    $icons[] = [
+        'src' => '/images/favicon192.png',
+        'sizes' => '192x192',
+        'type' => 'image/png',
+        'purpose' => 'any',
+    ];
+    $icons[] = [
+        'src' => '/images/favicon192.png',
+        'sizes' => '192x192',
+        'type' => 'image/png',
+        'purpose' => 'maskable',
+    ];
+    $icons[] = [
+        'src' => '/images/favicon512.png',
+        'sizes' => '512x512',
+        'type' => 'image/png',
+        'purpose' => 'any',
+    ];
+    $icons[] = [
+        'src' => '/images/favicon512.png',
+        'sizes' => '512x512',
+        'type' => 'image/png',
+        'purpose' => 'maskable',
+    ];
+
     return response()->json([
         'name' => $appName,
         'short_name' => $shortName,
@@ -89,38 +150,7 @@ Route::get('/app.webmanifest', function () {
         'background_color' => '#0f172a',
         'theme_color' => '#4f46e5',
         'orientation' => 'portrait-primary',
-        'icons' => [
-            [
-                'src' => '/images/favicon192.png',
-                'sizes' => '192x192',
-                'type' => 'image/png',
-                'purpose' => 'any',
-            ],
-            [
-                'src' => '/images/favicon192.png',
-                'sizes' => '192x192',
-                'type' => 'image/png',
-                'purpose' => 'maskable',
-            ],
-            [
-                'src' => '/images/favicon512.png',
-                'sizes' => '512x512',
-                'type' => 'image/png',
-                'purpose' => 'any',
-            ],
-            [
-                'src' => '/images/favicon512.png',
-                'sizes' => '512x512',
-                'type' => 'image/png',
-                'purpose' => 'maskable',
-            ],
-            [
-                'src' => $logoUrl,
-                'sizes' => '512x512',
-                'type' => 'image/png',
-                'purpose' => 'any',
-            ],
-        ],
+        'icons' => $icons,
     ], 200, [
         'Content-Type' => 'application/manifest+json; charset=utf-8',
         'Cache-Control' => 'no-cache, private',
